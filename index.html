@@ -38,9 +38,43 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Custom styles for the Login Modal */
+        #login-modal {
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body class="bg-white text-gray-900">
+
+    <!-- Login Modal (Hidden by default) -->
+    <div id="login-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0">
+        <div class="bg-white w-full max-w-md p-8 rounded-[2.5rem] shadow-2xl m-4 relative">
+            <button id="close-modal" class="absolute top-6 left-6 text-gray-400 hover:text-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold mb-2">تسجيل الدخول</h3>
+                <p class="text-gray-500 text-sm">اشترك في المنصة لتصلك أحدث أعمالنا</p>
+            </div>
+            <div class="space-y-4">
+                <button class="w-full flex items-center justify-center gap-3 px-6 py-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition font-medium">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                    <span>المتابعة باستخدام جوجل</span>
+                </button>
+                <button class="w-full flex items-center justify-center gap-3 px-6 py-3 bg-[#1877F2] text-white rounded-2xl hover:bg-[#166fe5] transition font-medium">
+                    <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" class="w-5 h-5 brightness-200" alt="Facebook">
+                    <span>المتابعة باستخدام فيسبوك</span>
+                </button>
+                <button class="w-full flex items-center justify-center gap-3 px-6 py-3 bg-black text-white rounded-2xl hover:bg-gray-800 transition font-medium">
+                    <img src="https://www.svgrepo.com/show/445330/apple.svg" class="w-5 h-5 invert" alt="Apple">
+                    <span>المتابعة باستخدام آبل</span>
+                </button>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-6">
+                بالتسجيل، أنت توافق على <a href="#" class="underline">شروط الخدمة</a> الخاصة بنا.
+            </p>
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 nav-blur border-b border-gray-100">
@@ -56,7 +90,11 @@
                     <a href="#home" class="text-blue-600">الرئيسية</a>
                     <a href="#projects" class="text-gray-600 hover:text-blue-600 transition">أعمالنا</a>
                     <a href="#services" class="text-gray-600 hover:text-blue-600 transition">خدماتنا</a>
-                    <a href="#testimonials" class="text-gray-600 hover:text-blue-600 transition">عملائنا</a>
+                    <div class="h-6 w-px bg-gray-200 mx-2"></div>
+                    <button id="open-login" class="text-gray-600 hover:text-black transition flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                        <span>دخول</span>
+                    </button>
                     <a href="#contact" class="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition shadow-md">ابدأ مشروعك</a>
                 </div>
                 <button id="menu-btn" class="md:hidden p-2 text-gray-600">
@@ -68,7 +106,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-200 p-6 flex flex-col space-y-4">
             <a href="#home" class="text-lg font-bold">الرئيسية</a>
             <a href="#projects" class="text-lg">أعمالنا</a>
-            <a href="#services" class="text-lg">خدماتنا</a>
+            <button id="open-login-mobile" class="text-right text-lg">تسجيل الدخول</button>
             <a href="#contact" class="text-blue-600 font-bold">تواصل معنا</a>
         </div>
     </nav>
@@ -282,7 +320,7 @@
                 <p class="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">سواء كنت شركة ناشئة أو مؤسسة كبيرة، نحن هنا لمساعدتك في رحلة التحول الرقمي.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-6">
                     <a href="mailto:hello@ebda.com" class="bg-white text-blue-600 px-10 py-4 rounded-2xl font-extrabold text-lg hover:bg-gray-100 transition shadow-lg">تواصل معنا اليوم</a>
-                    <a href="#" class="border border-white/30 bg-white/10 backdrop-blur-md px-10 py-4 rounded-2xl font-extrabold text-lg hover:bg-white/20 transition">احجز استشارة مجانية</a>
+                    <button id="open-login-cta" class="border border-white/30 bg-white/10 backdrop-blur-md px-10 py-4 rounded-2xl font-extrabold text-lg hover:bg-white/20 transition">اشترك الآن بحسابك الرسمي</button>
                 </div>
             </div>
         </div>
@@ -326,6 +364,37 @@
     </footer>
 
     <script>
+        // Modal Logic
+        const modal = document.getElementById('login-modal');
+        const openBtn = document.getElementById('open-login');
+        const openBtnMobile = document.getElementById('open-login-mobile');
+        const openBtnCTA = document.getElementById('open-login-cta');
+        const closeBtn = document.getElementById('close-modal');
+
+        const showModal = () => {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+            }, 10);
+        };
+
+        const hideModal = () => {
+            modal.classList.remove('opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        };
+
+        openBtn.addEventListener('click', showModal);
+        openBtnMobile.addEventListener('click', showModal);
+        openBtnCTA.addEventListener('click', showModal);
+        closeBtn.addEventListener('click', hideModal);
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) hideModal();
+        });
+
         // Reveal elements on scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
