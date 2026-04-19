@@ -321,7 +321,7 @@
             <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
                 <p>© 2024 وكالة إبداع الرقمية. جميع الحقوق محفوظة.</p>
                 <p>صنع بكل ❤️ في المنطقة العربية</p>
-            </div>
+            </div>    ياسر حسين 
         </div>
     </footer>
 
